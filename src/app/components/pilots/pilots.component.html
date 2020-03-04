@@ -1,0 +1,47 @@
+<form class="example-form form" [formGroup]="pilotForm">
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Код пилота" formControlName="pilotCode">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="№ пилота" formControlName="pilotNum">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="ФИО пилота" formControlName="pilotFullName">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Адрес пилота" formControlName="pilotAddress">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select formControlName="pilotAirplanesIds" multiple placeholder="Прикрепить самолет">
+      <mat-option *ngFor="let airplane of allAirplanes" [value]="airplane.id">{{ airplane.airplaneBrand }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="addPilot()">Добавить пилота</button>
+</form>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+  <ng-container matColumnDef="pilotCode">
+    <th mat-header-cell *matHeaderCellDef>Код пилота</th>
+    <td mat-cell *matCellDef="let pilot">{{ pilot.pilotCode }}</td>
+  </ng-container>
+  <ng-container matColumnDef="pilotNum">
+    <th mat-header-cell *matHeaderCellDef>Номер пилота</th>
+    <td mat-cell *matCellDef="let pilot">{{ pilot.pilotNum }}</td>
+  </ng-container>
+  <ng-container matColumnDef="pilotFullName">
+    <th mat-header-cell *matHeaderCellDef>ФИО пилота</th>
+    <td mat-cell *matCellDef="let pilot" [routerLinkActive]="'active'">
+      <a [routerLink]="pilot.id">{{ pilot.pilotFullName }}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="pilotAddress">
+    <th mat-header-cell *matHeaderCellDef>Адрес пилота</th>
+    <td mat-cell *matCellDef="let pilot">{{pilot.pilotAddress}}</td>
+  </ng-container>
+  <ng-container matColumnDef="pilotAirplanesIds">
+    <th mat-header-cell *matHeaderCellDef>К-во самолетов пилота</th>
+    <td mat-cell *matCellDef="let pilot">{{pilot.pilotAirplanesIds.length}}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+</table>
+<router-outlet></router-outlet>

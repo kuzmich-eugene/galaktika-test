@@ -1,0 +1,50 @@
+<form class="example-form form" [formGroup]="airplaneForm">
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Код воздушного судна" formControlName="airplaneCode">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Тип воздушного судна" formControlName="airplaneType">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Бортовой номер" formControlName="airplaneSideNumber">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Марка воздушного судна" formControlName="airplaneBrand">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Модель воздушного судна" formControlName="airplaneModel">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select formControlName="airplanesPilotsIds" multiple placeholder="Закрепить пилота">
+      <mat-option *ngFor="let pilot of allPilots" [value]="pilot.id">{{ pilot.pilotFullName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="addAirplane()">Добавить самолет</button>
+</form>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+  <ng-container matColumnDef="airplaneCode">
+    <th mat-header-cell *matHeaderCellDef>Код самолета</th>
+    <td [class.table__cell--color]="isCharA(airplane.airplaneCode)" mat-cell *matCellDef="let airplane">{{ airplane.airplaneCode }}</td>
+  </ng-container>
+  <ng-container matColumnDef="airplaneType">
+    <th mat-header-cell *matHeaderCellDef>Тип самолета</th>
+    <td mat-cell *matCellDef="let airplane">{{ airplane.airplaneType }}</td>
+  </ng-container>
+  <ng-container matColumnDef="airplaneSideNumber">
+    <th mat-header-cell *matHeaderCellDef>Бортовой номер</th>
+    <td mat-cell *matCellDef="let airplane" [routerLinkActive]="'active'">
+      <a [routerLink]="airplane.id">{{ airplane.airplaneSideNumber }}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="airplaneBrand">
+    <th mat-header-cell *matHeaderCellDef>Марка самолета</th>
+    <td mat-cell *matCellDef="let airplane">{{ airplane.airplaneBrand }}</td>
+  </ng-container>
+  <ng-container matColumnDef="airplaneModel">
+    <th mat-header-cell *matHeaderCellDef>Модель самолета</th>
+    <td mat-cell *matCellDef="let airplane">{{ airplane.airplaneModel }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+</table>
+<router-outlet></router-outlet>

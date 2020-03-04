@@ -1,0 +1,41 @@
+<form class="example-form form" [formGroup]="airportForm">
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Код аэрапорта" formControlName="airportCode">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Наименование аэрапорта" formControlName="airportName">
+  </mat-form-field>
+  <mat-form-field class="example-full-width form__item">
+    <input matInput placeholder="Адрес аэрапорта" formControlName="airportAddress">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select formControlName="airportAirplanesIds" multiple placeholder="Прикрепить самолет">
+      <mat-option *ngFor="let airplane of allAirplanes" [value]="airplane.id">{{ airplane.airplaneBrand }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select formControlName="airportPilotsIds" multiple placeholder="Прикрепить пилота">
+      <mat-option *ngFor="let pilot of allPilots" [value]="pilot.id">{{ pilot.pilotFullName }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="addAirport()">Добавить аэрапорт</button>
+</form>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
+  <ng-container matColumnDef="airportCode">
+    <th mat-header-cell *matHeaderCellDef>Код</th>
+    <td mat-cell *matCellDef="let airport">{{ airport.airportCode }}</td>
+  </ng-container>
+  <ng-container matColumnDef="airportName">
+    <th mat-header-cell *matHeaderCellDef>Наименование</th>
+    <td mat-cell *matCellDef="let airport" [routerLinkActive]="'active'">
+      <a [routerLink]="airport.id">{{ airport.airportName }}</a>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="airportAddress">
+    <th mat-header-cell *matHeaderCellDef>Адрес</th>
+    <td mat-cell *matCellDef="let airport">{{ airport.airportAddress }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+</table>
+<router-outlet></router-outlet>
