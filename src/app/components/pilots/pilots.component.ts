@@ -8,8 +8,6 @@ import { untilComponentDestroyed } from 'ng2-rx-componentdestroyed';
 import { IPilot, IAirplane } from 'src/app/interfaces';
 import { PilotsService, AirplanesService } from 'src/app/services';
 
-
-
 @Component({
   selector: 'app-pilots',
   templateUrl: './pilots.component.html',

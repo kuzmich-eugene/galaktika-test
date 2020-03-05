@@ -17,7 +17,8 @@ const appRoutes: Routes = [
     { path: 'airplanes', component: AirplanesComponent, children: [
       { path: ':id', component: AirplaneUpdateComponent }
     ] },
-  ]},
+    { path: '', redirectTo: 'airports', pathMatch: 'full'}
+  ]}
 ];
 
 @NgModule({
