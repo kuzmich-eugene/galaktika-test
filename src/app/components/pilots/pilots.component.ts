@@ -31,15 +31,15 @@ export class PilotsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.pilotsService.loadPilots();
-    this.airplanesService.loadAirplanes();
-    const planes$ = this.airplanesService.airplanesState$.pipe(
+    const loadPilots$ = this.pilotsService.loadPilots();
+    const loadPlanes$ = this.airplanesService.loadAirplanes();
+    const planes$ = this.airplanesService.planesState$.pipe(
       tap(planes => this.allAirplanes = planes)
     );
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap(pilots => this.dataSource.data = pilots)
     );
-    merge(planes$, pilots$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPilots$, loadPlanes$, planes$, pilots$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   private createForm() {
@@ -54,7 +54,9 @@ export class PilotsComponent implements OnInit, OnDestroy {
 
   public addPilot() {
     const newPilot = this.pilotForm.value;
-    this.pilotsService.addPilot({...newPilot});
+    this.pilotsService.addPilot({...newPilot}).pipe(
+      untilComponentDestroyed(this)
+    ).subscribe();
     this.pilotForm.reset();
     Object.keys(this.pilotForm.controls).forEach(key => {
       this.pilotForm.controls[key].setErrors(null);

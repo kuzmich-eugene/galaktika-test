@@ -32,19 +32,19 @@ export class AirportsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.airportsService.loadAirports();
-    this.airplanesService.loadAirplanes();
-    this.pilotsService.loadPilots();
-    const ports$ = this.airportsService.airportsState$.pipe(
+    const loadAirports$ = this.airportsService.loadAirports();
+    const loadPlanes$ = this.airplanesService.loadAirplanes();
+    const loadPilots$ = this.pilotsService.loadPilots();
+    const ports$ = this.airportsService.portsState$.pipe(
       tap(airports => this.dataSource.data = airports),
     );
-    const planes$ = this.airplanesService.airplanesState$.pipe(
+    const planes$ = this.airplanesService.planesState$.pipe(
       tap(planes => this.allAirplanes = planes)
     );
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap(pilots => this.allPilots = pilots)
     );
-    merge(ports$, planes$, pilots$).pipe(
+    merge(loadAirports$, loadPlanes$, loadPilots$, ports$, planes$, pilots$).pipe(
       untilComponentDestroyed(this)
     ).subscribe();
   }
@@ -61,7 +61,9 @@ export class AirportsComponent implements OnInit, OnDestroy {
 
   public addAirport() {
     const newAirport = this.airportForm.value;
-    this.airportsService.addAirport({...newAirport});
+    this.airportsService.addAirport({...newAirport}).pipe(
+      untilComponentDestroyed(this)
+    ).subscribe();
     this.airportForm.reset();
     Object.keys(this.airportForm.controls).forEach(key => {
       this.airportForm.controls[key].setErrors(null);

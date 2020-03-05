@@ -31,15 +31,15 @@ export class AirplanesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.airplanesService.loadAirplanes();
-    this.pilotsService.loadPilots();
+    const loadPlanes$ = this.airplanesService.loadAirplanes();
+    const loadPilots$ = this.pilotsService.loadPilots();
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap(pilots => this.allPilots = pilots)
     );
-    const airplanes$ = this.airplanesService.airplanesState$.pipe(
+    const airplanes$ = this.airplanesService.planesState$.pipe(
       tap(airplanes => this.dataSource.data = airplanes)
     );
-    merge(pilots$, airplanes$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPlanes$, loadPilots$, pilots$, airplanes$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   public isCharA(codeAirplane: string) {
@@ -59,7 +59,9 @@ export class AirplanesComponent implements OnInit, OnDestroy {
 
   public addAirplane() {
     const newAirplane = this.airplaneForm.value;
-    this.airplanesService.addAirplane({...newAirplane});
+    this.airplanesService.addAirplane({...newAirplane}).pipe(
+      untilComponentDestroyed(this)
+    ).subscribe();
     this.airplaneForm.reset();
     Object.keys(this.airplaneForm.controls).forEach(key => {
       this.airplaneForm.controls[key].setErrors(null);

@@ -30,8 +30,8 @@ export class PilotUpdateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.airplanesService.loadAirplanes();
-    const planes$ = this.airplanesService.airplanesState$.pipe(
+    const loadPlanes$ = this.airplanesService.loadAirplanes();
+    const planes$ = this.airplanesService.planesState$.pipe(
       tap(planes => this.allAirplanes = planes),
     );
     const pilot$ = this.route.params.pipe(
@@ -45,7 +45,7 @@ export class PilotUpdateComponent implements OnInit, OnDestroy {
         );
       })
     );
-    merge(planes$, pilot$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPlanes$, planes$, pilot$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   private createForm() {
@@ -64,14 +64,22 @@ export class PilotUpdateComponent implements OnInit, OnDestroy {
 
   public updatePilot() {
     const updatePilot = {...this.form.value, id: this.pilot.id};
-    this.pilotsService.updatePilot({...updatePilot});
-    this.form.reset();
-    this.router.navigate(['pilots']);
+    this.pilotsService.updatePilot({...updatePilot}).pipe(
+      tap(_ => {
+        this.form.reset();
+        this.router.navigate(['pilots']);
+      }),
+      untilComponentDestroyed(this)
+    ).subscribe();
   }
 
   public deletePilot() {
-    this.pilotsService.deletePilot(this.pilot.id);
-    this.router.navigate(['pilots']);
+    this.pilotsService.deletePilot(this.pilot.id).pipe(
+      tap(_ => {
+        this.router.navigate(['pilots']);
+      }),
+      untilComponentDestroyed(this)
+    ).subscribe();
   }
 
   ngOnDestroy() {}

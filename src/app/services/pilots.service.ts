@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { IPilot } from '../interfaces';
@@ -16,13 +16,13 @@ export class PilotsService {
     private readonly http: HttpClient
   ) {}
 
-  public loadPilots() {
-    this.http.get<IPilot[]>('/api/pilots').pipe(
+  public loadPilots(): Observable<IPilot[]> {
+    return this.http.get<IPilot[]>('/api/pilots').pipe(
       tap(pilots => this._pilotsState.next(pilots))
-    ).subscribe();
+    );
   }
 
-  public getPilot(id: number) {
+  public getPilot(id: number): Observable<IPilot> {
     const pilots = this._pilotsState.getValue();
     const pilot = pilots.find((item) => item.id === id);
     if (pilot) {
@@ -31,18 +31,18 @@ export class PilotsService {
     return this.http.get<IPilot>(`/api/pilots/${id}`);
   }
 
-  public addPilot(pilot: IPilot) {
-    this.http.post<IPilot>('/api/pilots', pilot).pipe(
+  public addPilot(pilot: IPilot): Observable<IPilot> {
+    return this.http.post<IPilot>('/api/pilots', pilot).pipe(
       tap((pilotFromBack: IPilot) => {
         const currState = this._pilotsState.getValue();
         const newState = [...currState, pilotFromBack];
         this._pilotsState.next(newState);
       }
-    )).subscribe();
+    ));
   }
 
-  public updatePilot(pilot: IPilot) {
-    this.http.put<IPilot>(`/api/pilots/${pilot.id}`, pilot).pipe(
+  public updatePilot(pilot: IPilot): Observable<IPilot> {
+    return this.http.put<IPilot>(`/api/pilots/${pilot.id}`, pilot).pipe(
       tap(_ => {
         const currState = this._pilotsState.getValue();
         const newState = currState.map(pil => {
@@ -52,15 +52,15 @@ export class PilotsService {
           return pil;
         });
         this._pilotsState.next(newState);
-      })).subscribe();
+      }));
   }
 
-  public deletePilot(id: number) {
-    this.http.delete(`api/pilots/${id}`).pipe(
+  public deletePilot(id: number): Observable<IPilot> {
+    return this.http.delete<IPilot>(`api/pilots/${id}`).pipe(
       tap(_ => {
         const currState = this._pilotsState.getValue();
         const newState = currState.filter(item => item.id !== id);
         this._pilotsState.next(newState);
-      })).subscribe();
+      }));
   }
 }

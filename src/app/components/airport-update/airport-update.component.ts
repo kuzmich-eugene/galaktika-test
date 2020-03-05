@@ -32,12 +32,12 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.airplanesService.loadAirplanes();
-    this.pilotsService.loadPilots();
+    const loadPlanes$ = this.airplanesService.loadAirplanes();
+    const loadPilots$ = this.pilotsService.loadPilots();
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap(v => this.allPilots = v)
     );
-    const airplanes$ = this.airplanesService.airplanesState$.pipe(
+    const airplanes$ = this.airplanesService.planesState$.pipe(
       tap(v => this.allAirplanes = v),
     );
     const airport$ = this.route.params.pipe(
@@ -52,7 +52,7 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
         );
       })
     );
-    merge(pilots$, airplanes$, airport$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPlanes$, loadPilots$, pilots$, airplanes$, airport$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   private createForm() {
@@ -71,14 +71,22 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
 
   public updateAirport() {
     const updatePort = {...this.form.value, id: this.airport.id};
-    this.airportsService.updateAirport({...updatePort});
-    this.form.reset();
-    this.router.navigate(['airports']);
+    this.airportsService.updateAirport({...updatePort}).pipe(
+      tap(_ => {
+        this.form.reset();
+        this.router.navigate(['airports']);
+      }),
+      untilComponentDestroyed(this)
+    ).subscribe();
   }
 
   public deleteAirport() {
-    this.airportsService.deleteAirport(this.airport.id);
-    this.router.navigate(['airports']);
+    this.airportsService.deleteAirport(this.airport.id).pipe(
+      tap(_ => {
+        this.router.navigate(['airports']);
+      }),
+      untilComponentDestroyed(this)
+      ).subscribe();
   }
 
   ngOnDestroy() {}

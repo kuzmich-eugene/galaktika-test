@@ -30,7 +30,7 @@ export class AirplaneUpdateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createForm();
-    this.pilotsService.loadPilots();
+    const loadPilots$ = this.pilotsService.loadPilots();
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap((pilots: IPilot[]) => this.allPilots = pilots),
     );
@@ -45,7 +45,7 @@ export class AirplaneUpdateComponent implements OnInit, OnDestroy {
         );
       })
     );
-    merge(pilots$, airplane$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPilots$, pilots$, airplane$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   private createForm() {
@@ -65,14 +65,22 @@ export class AirplaneUpdateComponent implements OnInit, OnDestroy {
 
   public updateAirplane() {
     const updatePlane = {...this.form.value, id: this.airplane.id};
-    this.airplanesService.updateAirplane({...updatePlane});
-    this.form.reset();
-    this.router.navigate(['airplanes']);
+    this.airplanesService.updateAirplane({...updatePlane}).pipe(
+      tap(_ => {
+        this.form.reset();
+        this.router.navigate(['airplanes']);
+      }),
+      untilComponentDestroyed(this)
+    ).subscribe();
   }
 
   public deleteAirplane() {
-    this.airplanesService.deleteAirplane(this.airplane.id);
-    this.router.navigate(['airplanes']);
+    this.airplanesService.deleteAirplane(this.airplane.id).pipe(
+      tap(_ => {
+        this.router.navigate(['airplanes']);
+      }),
+      untilComponentDestroyed(this)
+      ).subscribe();
   }
 
   ngOnDestroy() {}
