@@ -35,7 +35,7 @@ export class PilotsComponent implements OnInit, OnDestroy {
       tap(planes => this.allAirplanes = planes)
     );
     const pilots$ = this.pilotsService.pilotsState$.pipe(
-      tap(pilots => this.dataSource.data = pilots)
+      tap(pilots => this.dataSource.data = pilots),
     );
     merge(loadPilots$, loadPlanes$, planes$, pilots$).pipe(untilComponentDestroyed(this)).subscribe();
   }
@@ -56,11 +56,7 @@ export class PilotsComponent implements OnInit, OnDestroy {
       untilComponentDestroyed(this)
     ).subscribe();
     this.pilotForm.reset();
-    Object.keys(this.pilotForm.controls).forEach(key => {
-      this.pilotForm.controls[key].setErrors(null);
-    });
   }
 
   ngOnDestroy() {}
-
 }

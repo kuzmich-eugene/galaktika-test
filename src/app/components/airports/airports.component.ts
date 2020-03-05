@@ -65,9 +65,6 @@ export class AirportsComponent implements OnInit, OnDestroy {
       untilComponentDestroyed(this)
     ).subscribe();
     this.airportForm.reset();
-    Object.keys(this.airportForm.controls).forEach(key => {
-      this.airportForm.controls[key].setErrors(null);
-    });
   }
 
   ngOnDestroy() {}
