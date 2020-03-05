@@ -51,7 +51,6 @@ export class AirplanesService {
           }
           return plane;
         });
-        console.log(newState);
         this._planesState.next(newState);
       }));
   }

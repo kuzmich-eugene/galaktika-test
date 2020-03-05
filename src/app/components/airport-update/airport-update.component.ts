@@ -45,7 +45,6 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
       switchMap(id => {
         return this.airportsService.getAirport(id).pipe(
           tap((port) => {
-            console.log(port);
             this.airport = port;
             this.setFormValue(port);
           }),
