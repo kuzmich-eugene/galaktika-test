@@ -40,6 +40,11 @@ export class PilotsComponent implements OnInit, OnDestroy {
     merge(loadPilots$, loadPlanes$, planes$, pilots$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
+  public getCountPlanes(pilot: IPilot) {
+    const planesPilot = pilot.pilotAirplanesIds;
+    return planesPilot.filter(plane => this.allAirplanes.find(airPlane => airPlane.id === plane)).length;
+  }
+
   private createForm() {
     this.pilotForm = new FormGroup({
       pilotCode: new FormControl('', Validators.required),

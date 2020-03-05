@@ -39,7 +39,7 @@
   </ng-container>
   <ng-container matColumnDef="pilotAirplanesIds">
     <th mat-header-cell *matHeaderCellDef>К-во самолетов пилота</th>
-    <td mat-cell *matCellDef="let pilot">{{pilot.pilotAirplanesIds.length}}</td>
+    <td mat-cell *matCellDef="let pilot">{{getCountPlanes(pilot)}}</td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="columns"></tr>
   <tr mat-row *matRowDef="let row; columns: columns;"></tr>
