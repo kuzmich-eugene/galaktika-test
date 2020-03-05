@@ -40,19 +40,19 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
     const airplanes$ = this.airplanesService.planesState$.pipe(
       tap(v => this.allAirplanes = v),
     );
-    const airport$ = this.route.params.pipe(
+    const port$ = this.route.params.pipe(
       map((params: Params) => +params['id']),
       switchMap(id => {
         return this.airportsService.getAirport(id).pipe(
-          tap((airport) => {
-            console.log(airport);
-            this.airport = airport;
-            this.setFormValue(airport);
+          tap((port) => {
+            console.log(port);
+            this.airport = port;
+            this.setFormValue(port);
           }),
         );
       })
     );
-    merge(loadPlanes$, loadPilots$, pilots$, airplanes$, airport$).pipe(untilComponentDestroyed(this)).subscribe();
+    merge(loadPlanes$, loadPilots$, pilots$, airplanes$, port$).pipe(untilComponentDestroyed(this)).subscribe();
   }
 
   private createForm() {
