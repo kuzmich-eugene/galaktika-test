@@ -1,0 +1,11 @@
+.table {
+  width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
+
+  &__cell {
+    &--color {
+      color: green;
+    }
+  }
+}

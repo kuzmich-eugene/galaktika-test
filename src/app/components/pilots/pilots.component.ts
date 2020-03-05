@@ -32,7 +32,7 @@ export class PilotsComponent implements OnInit, OnDestroy {
     const loadPilots$ = this.pilotsService.loadPilots();
     const loadPlanes$ = this.airplanesService.loadAirplanes();
     const planes$ = this.airplanesService.planesState$.pipe(
-      tap(planes => this.allAirplanes = planes)
+      tap(planes => this.allAirplanes = planes),
     );
     const pilots$ = this.pilotsService.pilotsState$.pipe(
       tap(pilots => this.dataSource.data = pilots),

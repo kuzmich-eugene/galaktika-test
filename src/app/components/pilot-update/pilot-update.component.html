@@ -1,21 +1,21 @@
-<form class="form" [formGroup]="form">
-  <mat-form-field class="form__item">
+<form class="form-upd" [formGroup]="form">
+  <mat-form-field class="form-upd__item">
     <input matInput placeholder="Код пилота" formControlName="pilotCode">
   </mat-form-field>
-  <mat-form-field class="form__item">
+  <mat-form-field class="form-upd__item">
     <input matInput placeholder="№ пилота" formControlName="pilotNum">
   </mat-form-field>
-  <mat-form-field class="form__item">
+  <mat-form-field class="form-upd__item">
     <input matInput placeholder="ФИО пилота" formControlName="pilotFullName">
   </mat-form-field>
-  <mat-form-field class="form__item">
+  <mat-form-field class="form-upd__item">
     <input matInput placeholder="Адрес пилота" formControlName="pilotAddress">
   </mat-form-field>
-  <mat-form-field class="form__item">
+  <mat-form-field class="form-upd__item">
     <mat-select formControlName="pilotAirplanesIds" multiple placeholder="Прикрепить самолет">
       <mat-option *ngFor="let airplane of allAirplanes" [value]="airplane.id">{{ airplane.airplaneBrand }}</mat-option>
     </mat-select>
   </mat-form-field>
   <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="updatePilot()">Обновить пилота</button>
-  <button class="form__button--delete" mat-raised-button color="warn" (click)="deletePilot()">Удалить пилота</button>
+  <button id="button-delete" mat-raised-button color="warn" (click)="deletePilot()">Удалить пилота</button>
 </form>
