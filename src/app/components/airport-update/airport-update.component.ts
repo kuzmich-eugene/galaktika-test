@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { merge } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, pluck } from 'rxjs/operators';
 import { untilComponentDestroyed } from 'ng2-rx-componentdestroyed';
 
 import { IAirport, IAirplane, IPilot } from 'src/app/interfaces';
@@ -41,7 +41,7 @@ export class AirportUpdateComponent implements OnInit, OnDestroy {
       tap(v => this.allAirplanes = v),
     );
     const port$ = this.route.params.pipe(
-      map((params: Params) => +params['id']),
+      pluck('id'),
       switchMap(id => {
         return this.airportsService.getAirport(id).pipe(
           tap((port) => {
