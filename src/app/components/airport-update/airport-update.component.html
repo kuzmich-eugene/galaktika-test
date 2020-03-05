@@ -1,12 +1,12 @@
 <form class="form-upd" [formGroup]="form">
   <mat-form-field class="form-upd__item">
-    <input matInput placeholder="Код аэрапорта" formControlName="airportCode">
+    <input matInput placeholder="Код аэропорта" formControlName="airportCode">
   </mat-form-field>
   <mat-form-field class="form-upd__item">
-    <input matInput placeholder="Наименование аэрапорта" formControlName="airportName">
+    <input matInput placeholder="Наименование аэропорта" formControlName="airportName">
   </mat-form-field>
   <mat-form-field class="form-upd__item">
-    <input matInput placeholder="Адрес аэрапорта" formControlName="airportAddress">
+    <input matInput placeholder="Адрес аэропорта" formControlName="airportAddress">
   </mat-form-field>
   <mat-form-field class="form-upd__item">
     <mat-select formControlName="airportAirplanesIds" multiple placeholder="Прикрепить самолет">
@@ -18,6 +18,6 @@
       <mat-option *ngFor="let pilot of allPilots" [value]="pilot.id">{{ pilot.pilotFullName }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="updateAirport()">Обновить аэрапорт</button>
-  <button id="button-delete" mat-raised-button color="warn" (click)="deleteAirport()">Удалить аэрапорт</button>
+  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="updateAirport()">Обновить аэропорт</button>
+  <button id="button-delete" mat-raised-button color="warn" (click)="deleteAirport()">Удалить аэропорт</button>
 </form>

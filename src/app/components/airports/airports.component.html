@@ -1,12 +1,12 @@
 <form class="form" [formGroup]="airportForm">
   <mat-form-field class="form__item">
-    <input matInput placeholder="Код аэрапорта" formControlName="airportCode">
+    <input matInput placeholder="Код аэропорта" formControlName="airportCode">
   </mat-form-field>
   <mat-form-field class="form__item">
-    <input matInput placeholder="Наименование аэрапорта" formControlName="airportName">
+    <input matInput placeholder="Наименование аэропорта" formControlName="airportName">
   </mat-form-field>
   <mat-form-field class="form__item">
-    <input matInput placeholder="Адрес аэрапорта" formControlName="airportAddress">
+    <input matInput placeholder="Адрес аэропорта" formControlName="airportAddress">
   </mat-form-field>
   <mat-form-field class="form__item">
     <mat-select formControlName="airportAirplanesIds" multiple placeholder="Прикрепить самолет">
@@ -18,7 +18,7 @@
       <mat-option *ngFor="let pilot of allPilots" [value]="pilot.id">{{ pilot.pilotFullName }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="addAirport()">Добавить аэрапорт</button>
+  <button mat-raised-button color="primary" [disabled]="formDisabled" (click)="addAirport()">Добавить аэропорт</button>
 </form>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table">
   <ng-container matColumnDef="airportCode">

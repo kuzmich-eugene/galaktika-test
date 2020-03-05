@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class TabsComponent implements OnInit {
 
   public navLinks = [
-    {path: '/airports', label: 'Аэрапорты'},
+    {path: '/airports', label: 'Аэропорты'},
     {path: '/pilots', label: 'Пилоты'},
     {path: '/airplanes', label: 'Самолеты'},
   ];
