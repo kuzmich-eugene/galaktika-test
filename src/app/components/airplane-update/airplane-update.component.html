@@ -1,20 +1,20 @@
-<form class="example-form form" [formGroup]="form">
-  <mat-form-field class="example-full-width form__item">
+<form class="form" [formGroup]="form">
+  <mat-form-field class="form__item">
     <input matInput placeholder="Код воздушного судна" formControlName="airplaneCode">
   </mat-form-field>
-  <mat-form-field class="example-full-width form__item">
+  <mat-form-field class="form__item">
     <input matInput placeholder="Тип воздушного судна" formControlName="airplaneType">
   </mat-form-field>
-  <mat-form-field class="example-full-width form__item">
+  <mat-form-field class="form__item">
     <input matInput placeholder="Бортовой номер" formControlName="airplaneSideNumber">
   </mat-form-field>
-  <mat-form-field class="example-full-width form__item">
+  <mat-form-field class="form__item">
     <input matInput placeholder="Марка воздушного судна" formControlName="airplaneBrand">
   </mat-form-field>
-  <mat-form-field class="example-full-width form__item">
+  <mat-form-field class="form__item">
     <input matInput placeholder="Модель воздушного судна" formControlName="airplaneModel">
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="form__item">
     <mat-select formControlName="airplanesPilotsIds" multiple placeholder="Закрепить пилота">
       <mat-option *ngFor="let pilot of allPilots" [value]="pilot.id">{{ pilot.pilotFullName }}</mat-option>
     </mat-select>
